@@ -1,8 +1,8 @@
 {
   "name": "logcat-viewer",
-  "displayName": "Logcat Viewer",
-  "description": "View and filter Android ADB logcat logs",
-  "version": "1.0.5",
+  "displayName": "Android Dev Tools",
+  "description": "Android development tools: create projects, build, run, and view logcat logs",
+  "version": "1.1.0",
   "publisher": "kevindowling",
   "icon": "resources/icon.png",
   "repository": {
@@ -13,7 +13,16 @@
     "vscode": "^1.74.0"
   },
   "categories": [
+    "Programming Languages",
     "Other"
+  ],
+  "keywords": [
+    "android",
+    "adb",
+    "logcat",
+    "mobile",
+    "kotlin",
+    "java"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
@@ -21,18 +30,29 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "logcat",
-          "title": "Logcat",
+          "id": "android-dev",
+          "title": "Android",
           "icon": "resources/logcat-icon.svg"
         }
       ]
     },
     "views": {
-      "logcat": [
+      "android-dev": [
+        {
+          "id": "androidDevices",
+          "name": "Devices",
+          "visibility": "visible"
+        },
+        {
+          "id": "androidActions",
+          "name": "Actions",
+          "visibility": "visible"
+        },
         {
           "type": "webview",
           "id": "logcatView",
-          "name": "Logcat"
+          "name": "Logcat",
+          "visibility": "visible"
         }
       ]
     },
@@ -41,15 +61,110 @@
         "command": "logcat-viewer.openPanel",
         "title": "Logcat: Open Panel",
         "icon": "$(device-mobile)"
+      },
+      {
+        "command": "android.newProject",
+        "title": "Android: New Project",
+        "icon": "$(add)"
+      },
+      {
+        "command": "android.buildAndRun",
+        "title": "Android: Build and Run",
+        "icon": "$(play)"
+      },
+      {
+        "command": "android.build",
+        "title": "Android: Build Debug APK",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "android.buildRelease",
+        "title": "Android: Build Release APK",
+        "icon": "$(package)"
+      },
+      {
+        "command": "android.clean",
+        "title": "Android: Clean Project",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "android.install",
+        "title": "Android: Install APK",
+        "icon": "$(desktop-download)"
+      },
+      {
+        "command": "android.selectDevice",
+        "title": "Android: Select Device",
+        "icon": "$(device-mobile)"
+      },
+      {
+        "command": "android.refreshDevices",
+        "title": "Refresh Devices",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "android.runOnDevice",
+        "title": "Run on This Device",
+        "icon": "$(play)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "android.newProject"
+        },
+        {
+          "command": "android.buildAndRun"
+        },
+        {
+          "command": "android.build"
+        },
+        {
+          "command": "android.buildRelease"
+        },
+        {
+          "command": "android.clean"
+        },
+        {
+          "command": "android.install"
+        },
+        {
+          "command": "android.selectDevice"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "android.refreshDevices",
+          "when": "view == androidDevices",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "android.buildAndRun",
+          "when": "view == androidDevices && viewItem == device",
+          "group": "inline"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "androidDevices",
+        "contents": "No Android devices detected.\n[Refresh Devices](command:android.refreshDevices)\n\nMake sure ADB is installed and a device is connected."
       }
     ],
     "configuration": {
-      "title": "Logcat Viewer",
+      "title": "Android Dev Tools",
       "properties": {
         "logcat-viewer.adbPath": {
           "type": "string",
           "default": "adb",
           "description": "Path to ADB executable"
+        },
+        "android.sdkPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to Android SDK (uses ANDROID_HOME if not set)"
         }
       }
     }
