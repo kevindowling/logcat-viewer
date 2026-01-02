@@ -1,68 +1,39 @@
 # Logcat Viewer
 
-A VSCode extension for viewing, sorting, and colorizing Android ADB logcat logs.
+A VSCode extension for viewing and filtering Android ADB logcat logs in real-time.
 
 ## Features
 
-- **Syntax Highlighting**: Automatic colorization of logcat output based on log priority (V, D, I, W, E, F)
-- **Sorting**: Sort logs by time, priority level, or tag name
-- **Filtering**: Filter logs by minimum priority level or tag pattern (regex supported)
-- **Live Capture**: Start live logcat capture directly from VSCode
-- **Customizable Colors**: Configure colors for each log priority level
+- **Sidebar Panel** - Dedicated logcat viewer in the Activity Bar with a phone icon
+- **Real-time Streaming** - Live logcat capture from connected Android devices
+- **Colorized Output** - Logs colored by priority level (Verbose, Debug, Info, Warning, Error, Fatal)
+- **Filtering** - Filter by minimum log level, tag name, or search text
+- **Auto-scroll** - Automatically scroll to latest logs (toggleable)
+- **Auto-detect ADB** - Finds ADB in common installation paths
 
 ## Usage
 
-### Opening Logcat Files
+1. Connect an Android device via USB or start an emulator
+2. Click the **phone icon** in the Activity Bar (left sidebar)
+3. Click **▶ Start** to begin capturing logs
+4. Use the filters to narrow down logs:
+   - **Level dropdown** - Show only logs at a certain priority and above
+   - **Tag filter** - Filter by tag name (partial match)
+   - **Search** - Search through all log content
+5. Click **■ Stop** to stop capturing
 
-The extension automatically activates for files with `.logcat` or `.log` extensions. You can also manually set the language mode to "Logcat" using the language selector in the bottom right of VSCode.
 
-### Commands
 
-Access these commands via the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`):
+## Configuration
 
-- **Logcat: Sort by Time** - Sort log entries chronologically
-- **Logcat: Sort by Priority** - Sort log entries by priority level (V→F or F→V)
-- **Logcat: Sort by Tag** - Sort log entries alphabetically by tag
-- **Logcat: Filter by Priority Level** - Show only logs at a certain priority and above
-- **Logcat: Filter by Tag** - Filter logs by tag name or regex pattern
-- **Logcat: Start Live Capture** - Start capturing logcat from connected device
-- **Logcat: Stop Live Capture** - Stop the live capture
-
-### Context Menu
-
-Right-click in a logcat file to access sorting and filtering options.
-
-### Configuration
-
-Configure the extension in VSCode settings:
-
-```json
-{
-  "logcat-viewer.colorize": true,
-  "logcat-viewer.verboseColor": "#808080",
-  "logcat-viewer.debugColor": "#0000FF",
-  "logcat-viewer.infoColor": "#00FF00",
-  "logcat-viewer.warningColor": "#FFA500",
-  "logcat-viewer.errorColor": "#FF0000",
-  "logcat-viewer.fatalColor": "#FF00FF",
-  "logcat-viewer.adbPath": "adb"
-}
-```
-
-## Supported Logcat Formats
-
-The extension supports multiple logcat output formats:
-
-- **threadtime**: `MM-DD HH:MM:SS.mmm PID TID PRIORITY TAG: MESSAGE`
-- **brief**: `PRIORITY/TAG(PID): MESSAGE`
-- **time**: `MM-DD HH:MM:SS.mmm PRIORITY/TAG(PID): MESSAGE`
-- **tag**: `PRIORITY/TAG: MESSAGE`
-- **long**: Multi-line format with header
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `logcat-viewer.adbPath` | `adb` | Path to ADB executable (auto-detected if not set) |
 
 ## Requirements
 
-- For live capture: ADB (Android Debug Bridge) must be installed and in your PATH
-- A connected Android device or running emulator
+- ADB (Android Debug Bridge) installed
+- Android device connected via USB or an emulator running
 
 ## Development
 
@@ -70,14 +41,13 @@ The extension supports multiple logcat output formats:
 # Install dependencies
 npm install
 
-# Compile TypeScript
+# Compile
 npm run compile
 
-# Watch for changes
+# Watch mode
 npm run watch
 
-# Package extension
-npx vsce package
+# Press F5 in VSCode to test
 ```
 
 ## License
