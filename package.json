@@ -2,7 +2,7 @@
   "name": "logcat-viewer",
   "displayName": "Logcat Viewer",
   "description": "View and filter Android ADB logcat logs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "kevindowling",
   "icon": "resources/icon.png",
   "repository": {

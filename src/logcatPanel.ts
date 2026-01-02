@@ -248,12 +248,12 @@ function getWebviewContent(): string {
         
         <div class="toolbar-group">
             <label>Tag:</label>
-            <input type="text" id="tagFilter" placeholder="Filter by tag..." oninput="applyFilters()">
+            <input type="text" id="tagFilter" placeholder="tag,-exclude,/regex/" oninput="applyFilters()" title="Comma-separated, -prefix to exclude, /regex/ for patterns">
         </div>
         
         <div class="toolbar-group">
             <label>Search:</label>
-            <input type="text" id="searchFilter" placeholder="Search logs..." oninput="applyFilters()">
+            <input type="text" id="searchFilter" placeholder="term,-exclude,/regex/" oninput="applyFilters()" title="Comma-separated, -prefix to exclude, /regex/ for patterns">
         </div>
         
         <div class="toolbar-group">
@@ -321,21 +321,93 @@ function getWebviewContent(): string {
             renderLogs();
         }
         
+        /**
+         * Parse a filter string into terms with support for:
+         * - Comma-separated values (OR logic): "term1,term2"
+         * - Negation with prefix: "-term" 
+         * - Regex patterns: "/pattern/"
+         */
+        function parseFilterTerms(filterStr) {
+            if (!filterStr.trim()) return [];
+            
+            return filterStr.split(',').map(term => {
+                term = term.trim();
+                if (!term) return null;
+                
+                const isNegated = term.startsWith('-');
+                if (isNegated) term = term.slice(1);
+                
+                // Don't treat empty string after removing "-" as valid
+                if (!term) return null;
+                
+                // Check for regex pattern /pattern/
+                if (term.startsWith('/') && term.endsWith('/') && term.length > 2) {
+                    try {
+                        const pattern = term.slice(1, -1);
+                        return { regex: new RegExp(pattern, 'i'), negated: isNegated };
+                    } catch (e) {
+                        // Invalid regex, treat as plain text
+                        return { text: term.toLowerCase(), negated: isNegated };
+                    }
+                }
+                
+                return { text: term.toLowerCase(), negated: isNegated };
+            }).filter(Boolean);
+        }
+        
+        /**
+         * Test if a value matches any of the filter terms
+         * Returns true if the value should be INCLUDED
+         */
+        function matchesFilter(value, terms) {
+            if (terms.length === 0) return true;
+            
+            const valueLower = value.toLowerCase();
+            
+            // Separate positive and negative terms
+            const positiveTerms = terms.filter(t => !t.negated);
+            const negativeTerms = terms.filter(t => t.negated);
+            
+            // Check negative terms first - if any match, exclude
+            for (const term of negativeTerms) {
+                const matches = term.regex 
+                    ? term.regex.test(value)
+                    : valueLower.includes(term.text);
+                if (matches) return false;
+            }
+            
+            // If no positive terms, include (only negatives were specified)
+            if (positiveTerms.length === 0) return true;
+            
+            // Check positive terms - at least one must match (OR logic)
+            for (const term of positiveTerms) {
+                const matches = term.regex 
+                    ? term.regex.test(value)
+                    : valueLower.includes(term.text);
+                if (matches) return true;
+            }
+            
+            return false;
+        }
+        
         function getFilteredLogs() {
             const levelFilter = document.getElementById('levelFilter').value;
-            const tagFilter = document.getElementById('tagFilter').value.toLowerCase();
-            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+            const tagFilter = document.getElementById('tagFilter').value;
+            const searchFilter = document.getElementById('searchFilter').value;
             const minLevel = priorityLevels[levelFilter];
+            
+            const tagTerms = parseFilterTerms(tagFilter);
+            const searchTerms = parseFilterTerms(searchFilter);
             
             return allLogs.filter(log => {
                 // Level filter
                 if (priorityLevels[log.priority] < minLevel) return false;
                 
                 // Tag filter
-                if (tagFilter && !log.tag.toLowerCase().includes(tagFilter)) return false;
+                if (!matchesFilter(log.tag || '', tagTerms)) return false;
                 
                 // Search filter
-                if (searchFilter && !log.raw.toLowerCase().includes(searchFilter)) return false;
+                if (!matchesFilter(log.raw || '', searchTerms)) return false;
                 
                 return true;
             });
@@ -469,6 +541,8 @@ function getWebviewContent(): string {
  */
 export function openLogcatPanel(context: vscode.ExtensionContext): void {
     if (panel) {
+        // Update HTML content in case it changed, then reveal
+        panel.webview.html = getWebviewContent();
         panel.reveal(vscode.ViewColumn.Two);
         return;
     }
