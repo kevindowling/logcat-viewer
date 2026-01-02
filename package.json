@@ -4,6 +4,10 @@
   "description": "View and filter Android ADB logcat logs",
   "version": "1.0.0",
   "publisher": "logcat-viewer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevindowling/logcat-viewer"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
