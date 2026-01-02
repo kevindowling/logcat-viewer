@@ -1,0 +1,12 @@
+01-01 12:00:01.123  1234  1234 V MyApp: Verbose message here
+01-01 12:00:01.124  1234  1234 D MyApp: Debug message for testing
+01-01 12:00:01.125  1234  1235 I ActivityManager: Starting activity com.example.app
+01-01 12:00:01.126  1234  1236 W WindowManager: Warning about something
+01-01 12:00:01.127  1234  1234 E MyApp: Error occurred in the application
+01-01 12:00:01.128  1234  1234 F MyApp: Fatal crash!
+01-01 12:00:02.001  5678  5678 D SystemUI: Notification posted
+01-01 12:00:02.002  5678  5679 I SystemUI: User interaction detected
+01-01 12:00:02.100  1234  1234 W MyApp: Another warning message
+01-01 12:00:03.500  9999  9999 E SurfaceFlinger: Buffer queue error
+01-01 12:00:03.501  1234  1234 I MyApp: Operation completed successfully
+01-01 12:00:04.000  1234  1240 D MyApp: Background task running

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Logcat",
+  "scopeName": "source.logcat",
+  "patterns": [
+    { "include": "#verbose-line" },
+    { "include": "#debug-line" },
+    { "include": "#info-line" },
+    { "include": "#warning-line" },
+    { "include": "#error-line" },
+    { "include": "#fatal-line" },
+    { "include": "#silent-line" },
+    { "include": "#timestamp" },
+    { "include": "#pid-tid" },
+    { "include": "#tag" }
+  ],
+  "repository": {
+    "verbose-line": {
+      "match": "^.*\\s+V\\s+.*$",
+      "name": "markup.inserted.logcat.verbose"
+    },
+    "debug-line": {
+      "match": "^.*\\s+D\\s+.*$",
+      "name": "markup.changed.logcat.debug"
+    },
+    "info-line": {
+      "match": "^.*\\s+I\\s+.*$",
+      "name": "string.logcat.info"
+    },
+    "warning-line": {
+      "match": "^.*\\s+W\\s+.*$",
+      "name": "markup.deleted.logcat.warning"
+    },
+    "error-line": {
+      "match": "^.*\\s+E\\s+.*$",
+      "name": "invalid.illegal.logcat.error"
+    },
+    "fatal-line": {
+      "match": "^.*\\s+F\\s+.*$",
+      "name": "invalid.deprecated.logcat.fatal"
+    },
+    "silent-line": {
+      "match": "^.*\\s+S\\s+.*$",
+      "name": "comment.logcat.silent"
+    },
+    "timestamp": {
+      "match": "^\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}\\.\\d{3}",
+      "name": "constant.numeric.logcat.timestamp"
+    },
+    "pid-tid": {
+      "match": "\\s+\\d+\\s+\\d+\\s+",
+      "name": "constant.language.logcat.pid"
+    },
+    "tag": {
+      "match": "(?<=[VDIWEFS]\\s)[\\w\\.\\-]+(?=\\s*:)",
+      "name": "entity.name.tag.logcat"
+    }
+  }
+}
