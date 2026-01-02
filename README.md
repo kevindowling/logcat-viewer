@@ -11,18 +11,6 @@ A VSCode extension for viewing and filtering Android ADB logcat logs in real-tim
 - **Auto-scroll** - Automatically scroll to latest logs (toggleable)
 - **Auto-detect ADB** - Finds ADB in common installation paths
 
-## Usage
-
-1. Connect an Android device via USB or start an emulator
-2. Click the **phone icon** in the Activity Bar (left sidebar)
-3. Click **▶ Start** to begin capturing logs
-4. Use the filters to narrow down logs:
-   - **Level dropdown** - Show only logs at a certain priority and above
-   - **Tag filter** - Filter by tag name (partial match)
-   - **Search** - Search through all log content
-5. Click **■ Stop** to stop capturing
-
-
 
 ## Configuration
 
@@ -35,21 +23,6 @@ A VSCode extension for viewing and filtering Android ADB logcat logs in real-tim
 - ADB (Android Debug Bridge) installed
 - Android device connected via USB or an emulator running
 
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Compile
-npm run compile
-
-# Watch mode
-npm run watch
-
-# Press F5 in VSCode to test
-```
-
 ## License
 
-ISC
+MIT
