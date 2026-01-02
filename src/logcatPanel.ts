@@ -258,7 +258,7 @@ function getWebviewContent(): string {
         
         <div class="toolbar-group">
             <label>
-                <input type="checkbox" id="autoScroll" checked> Auto-scroll
+                <input type="checkbox" id="autoScroll" checked> Lock to Bottom
             </label>
         </div>
         
@@ -363,7 +363,6 @@ function getWebviewContent(): string {
         function renderLogs() {
             const filtered = getFilteredLogs();
             const autoScroll = document.getElementById('autoScroll').checked;
-            const wasAtBottom = logContainer.scrollTop + logContainer.clientHeight >= logContainer.scrollHeight - 50;
             
             if (filtered.length === 0 && allLogs.length === 0) {
                 emptyState.classList.remove('hidden');
@@ -380,15 +379,17 @@ function getWebviewContent(): string {
                 '<div class="log-line ' + (log.priority || '') + '">' + formatLogLine(log) + '</div>'
             ).join('');
             
-            // Keep empty state hidden, update content
-            const scrollPos = logContainer.scrollTop;
+            // Calculate scroll position relative to bottom before re-render
+            const distanceFromBottom = logContainer.scrollHeight - logContainer.scrollTop - logContainer.clientHeight;
+            
             logContainer.innerHTML = html || '<div class="empty-state">No matching logs</div>';
             
-            // Restore scroll or auto-scroll
-            if (autoScroll && (wasAtBottom || isRunning)) {
+            // Auto-scroll to bottom, or maintain position relative to bottom
+            if (autoScroll) {
                 logContainer.scrollTop = logContainer.scrollHeight;
             } else {
-                logContainer.scrollTop = scrollPos;
+                // Keep the same distance from the bottom (so view stays on same content)
+                logContainer.scrollTop = logContainer.scrollHeight - logContainer.clientHeight - distanceFromBottom;
             }
             
             logCountEl.textContent = filtered.length + ' / ' + allLogs.length + ' lines';

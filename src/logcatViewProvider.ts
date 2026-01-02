@@ -336,7 +336,7 @@ export class LogcatViewProvider implements vscode.WebviewViewProvider {
             <button class="icon-btn secondary" onclick="clearLogs()" title="Clear">🗑</button>
             <span class="status-dot" id="statusDot"></span>
             <span class="spacer"></span>
-            <label><input type="checkbox" id="autoScroll" checked> Auto-scroll</label>
+            <label><input type="checkbox" id="autoScroll" checked> Lock to bottom</label>
         </div>
         <div class="toolbar-row filters">
             <select id="levelFilter" onchange="applyFilters()" title="Minimum log level">
