@@ -258,11 +258,19 @@ export async function installAndroid(): Promise<void> {
         return;
     }
 
-    const success = await installApk(device.id, project.apkPath);
-    
-    if (success) {
-        vscode.window.showInformationMessage(`APK installed to ${device.name}`);
-    }
+    await vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: 'Android',
+        cancellable: false
+    }, async (progress) => {
+        progress.report({ message: `Installing APK to ${device.name}...` });
+        
+        const success = await installApk(device.id, project.apkPath!);
+        
+        if (success) {
+            vscode.window.showInformationMessage(`APK installed to ${device.name}`);
+        }
+    });
 }
 
 /**

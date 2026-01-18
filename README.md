@@ -4,23 +4,23 @@ A VS Code extension for Android development: create projects, build, run, and vi
 
 ## Features
 
-### 🚀 Project Creation
+### Project Creation
 - **New Project Wizard** - Create Java or Kotlin Android projects from templates
 - **Configurable SDK** - Choose minimum SDK version during setup
 - **Ready to Build** - Projects include Gradle wrapper and proper structure
 
-### 🔨 Build & Run
+### Build & Run
 - **Build Debug/Release** - One-click Gradle builds
 - **Install & Run** - Deploy and launch on connected devices
 - **Device Selection** - Pick from multiple connected devices or emulators
 - **Clean Project** - Run Gradle clean task
 
-### 📱 Device Management
+### Device Management
 - **Device Tree View** - See all connected devices in the sidebar
 - **Auto-refresh** - Detect newly connected devices
 - **Direct Run** - Click a device to run your app on it
 
-### 📋 Logcat Viewer
+### Logcat Viewer
 - **Sidebar Panel** - Dedicated logcat viewer in the Activity Bar
 - **Real-time Streaming** - Live logcat capture from connected Android devices
 - **Colorized Output** - Logs colored by priority level (Verbose, Debug, Info, Warning, Error, Fatal)

@@ -2,7 +2,7 @@
   "name": "logcat-viewer",
   "displayName": "Android Dev Tools",
   "description": "Android development tools: create projects, build, run, and view logcat logs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "kevindowling",
   "icon": "resources/icon.png",
   "repository": {
